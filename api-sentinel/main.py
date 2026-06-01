@@ -1,6 +1,6 @@
 import requests
 from rich import print
-# API URL
+
 url = "https://jsonplaceholder.typicode.com/users"
 
 print("[yellow]Sending API Request...[/yellow]")
