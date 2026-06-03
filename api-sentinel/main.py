@@ -6,7 +6,8 @@ from rich import print
 def check_api():
 
     url = "https://jsonplaceholder.typicode.com/users"
-
+    # url = "https://jsonplaceholder.typicode.com/posts"
+    # url =  "https://jsonplaceholder.typicode.com/comments"
     print("[yellow]Sending API Request...[/yellow]")
 
     try:
@@ -15,7 +16,7 @@ def check_api():
 
         # Send Request
         response = requests.get(url)
-
+        
         # End Timer
         end_time = time.time()
 
@@ -32,6 +33,7 @@ def check_api():
             print("\n[cyan]First User Details:[/cyan]")
             print(f"Name : {data[0]['name']}")
             print(f"Email: {data[0]['email']}")
+            
 
             print(
                 f"\n[bold blue]Response Time:[/bold blue] {response_time} seconds"
