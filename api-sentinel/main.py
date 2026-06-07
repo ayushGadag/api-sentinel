@@ -5,49 +5,55 @@ from rich import print
 
 def check_api():
 
-    url = "https://jsonplaceholder.typicode.com/users"
-    # url = "https://jsonplaceholder.typicode.com/posts"
-    # url =  "https://jsonplaceholder.typicode.com/comments"
-    print("[yellow]Sending API Request...[/yellow]")
+    urls = [
+        "https://jsonplaceholder.typicode.com/users",
+        "https://jsonplaceholder.typicode.com/posts",
+        "https://jsonplaceholder.typicode.com/comments"
+    ]
 
-    try:
-        # Start Timer
-        start_time = time.time()
+    passed = 0
+    failed = 0
 
-        # Send Request
-        response = requests.get(url)
-        
-        # End Timer
-        end_time = time.time()
+    print("\n[bold cyan]API Sentinel Started[/bold cyan]\n")
 
-        # Calculate Response Time
-        response_time = round(end_time - start_time, 3)
+    for url in urls:
 
-        # Validate Status Code
-        if response.status_code == 200:
+        print(f"[yellow]Checking:[/yellow] {url}")
 
-            print("[green]✓ API Request Successful[/green]")
+        try:
+            start_time = time.time()
 
-            data = response.json()
+            response = requests.get(url)
 
-            print("\n[cyan]First User Details:[/cyan]")
-            print(f"Name : {data[0]['name']}")
-            print(f"Email: {data[0]['email']}")
-            
+            end_time = time.time()
 
-            print(
-                f"\n[bold blue]Response Time:[/bold blue] {response_time} seconds"
-            )
+            response_time = round(end_time - start_time, 3)
 
-        else:
+            if response.status_code == 200:
 
-            print("[red]✗ API Request Failed[/red]")
-            print(f"Status Code: {response.status_code}")
+                passed += 1
 
-    except Exception as e:
+                print("[green]✓ Success[/green]")
+                print(f"Status Code : {response.status_code}")
+                print(f"Response Time : {response_time} sec\n")
 
-        print(f"[bold red]Error:[/bold red] {e}")
+            else:
 
+                failed += 1
+
+                print("[red]✗ Failed[/red]")
+                print(f"Status Code : {response.status_code}\n")
+
+        except Exception as e:
+
+            failed += 1
+
+            print(f"[bold red]Error:[/bold red] {e}\n")
+
+    print("[bold blue]========== SUMMARY ==========[/bold blue]")
+    print(f"[green]Passed:[/green] {passed}")
+    print(f"[red]Failed:[/red] {failed}")
+    print(f"[cyan]Total APIs:[/cyan] {len(urls)}")
 
 
 check_api()
