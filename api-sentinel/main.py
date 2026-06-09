@@ -1,5 +1,6 @@
 import requests
 import time
+import json
 from rich import print
 from rich.console import Console
 from rich.progress import track
@@ -9,11 +10,11 @@ console = Console()
 
 def check_api():
 
-    urls = [
-        "https://jsonplaceholder.typicode.com/users",
-        "https://jsonplaceholder.typicode.com/posts",
-        "https://jsonplaceholder.typicode.com/comments"
-    ]
+    # Load APIs from JSON file
+    with open("apis.json", "r") as file:
+        data = json.load(file)
+
+    urls = data["apis"]
 
     passed = 0
     failed = 0
@@ -31,17 +32,13 @@ def check_api():
 [/green]
 """)
 
-    with console.status("[bold green]Initializing API Sentinel..."):
-        time.sleep(2)
-
-    print("[bold cyan]System Ready[/bold cyan]\n")
     # Startup Spinner
     with console.status("[bold green]Initializing API Sentinel..."):
         time.sleep(2)
 
     print("[bold cyan]System Ready[/bold cyan]\n")
 
-    # Progress Bar
+    # Scan APIs
     for url in track(urls, description="Scanning APIs..."):
 
         print(f"\n[yellow]Checking:[/yellow] {url}")
